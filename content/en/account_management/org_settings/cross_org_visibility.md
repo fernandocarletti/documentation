@@ -37,60 +37,9 @@ All types of metrics are supported, including [custom metrics][3], [trace metric
 
 ## Configure connections
 
-Configure connections through the public API `/api/v2/org_connections` endpoint. The application key you use to authenticate to the endpoint must have the [`org_management`][6] permission.
+To configure connections using the API see [TODO][add link].
 
-### List connections
-
-List all the connections this organization participates in, either as a source organization or as a destination organization.
-
-<span style="padding:3px" class="font-semibold text-api-get bg-bg-api-get">GET</span>
-https://{datadog_site}/api/v2/org_connections?api_key={datadog_api_key}&application_key={datadog_application_key}
-
-### Create a connection
-
-Creates a connection from this organization to the destination organization. You must perform this operation in the to-be-source organization.
-
-<span style="padding:3px" class="font-semibold text-api-post bg-bg-api-post">POST</span> https://{datadog_site}/api/v2/org_connections?api_key={datadog_api_key}&application_key={datadog_application_key}
-
-**Note:** The payload of this call requires the destination organization UUID. Get the destination organization's UUID from the "List your managed organizations" [endpoint][7].
-
-#### Header
-
-Content-Type: application/json
-
-#### Payload
-
-{{< code-block lang="json" collapsible="true" >}}
-{
-    "data": {
-        "type": "org_connection",
-        "relationships": {
-            "sink_org": {
-                "data": {
-                    "type": "orgs",
-                    "id": "{{the destination organization UUID}}"
-                }
-            }
-        }
-    }
-}
-{{< /code-block >}}
-
-#### Failure scenarios
-
-- The connection already exists
-- The connection refers to a destination organization ID outside of the account
-
-### Delete a connection
-
-Deletes a connection. Perform this operation either from the source organization or the destination organization. Reference the connection to delete with its ID, which you can get from the [List connections](#list-connections) request.
-
-<span style="padding:3px" class="font-semibold text-api-delete bg-bg-api-delete">DELETE</span> https://{datadog_site}/api/v2/org_connections/{connection_id}?api_key={datadog_api_key}&application_key={datadog_application_key}
-
-#### Failure scenarios
-
-- The organization does not participate as a source or a destination to the connection
-- The connection does not exist
+TODO add UI instructions and screenshots
 
 ## Create a widget with cross-organization data
 
@@ -118,7 +67,7 @@ The <a href="https://registry.terraform.io/providers/DataDog/datadog/latest/docs
 </div>
 
 You can define cross-organization queries in the following endpoint:
-- [Timeseries][8]
+- [Timeseries][6]
 
 When you define a widget in the Dashboard API, use the `cross_org_uuids` parameter in the JSON widget definition payload to identify the source organization in a cross-organization query.
 
@@ -172,6 +121,5 @@ Note the `cross_org_uuids` parameter in the JSON widget definition payload.
 [3]: /metrics/custom_metrics/#overview
 [4]: /tracing/metrics/metrics_namespace/
 [5]: /logs/log_configuration/logs_to_metrics/
-[6]: /account_management/rbac/permissions/#access-management
+[6]: /api/latest/metrics/#query-timeseries-data-across-multiple-products
 [7]: /api/latest/organizations/#list-your-managed-organizations
-[8]: /api/latest/metrics/#query-timeseries-data-across-multiple-products
